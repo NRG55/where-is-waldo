@@ -1,5 +1,6 @@
 import { useParams } from 'react-router';
 import games from '../data/games';
+import GameTimer from '../components/GameTimer';
 
 function GamePage() {
     const { gameSlug } = useParams();
@@ -16,6 +17,8 @@ function GamePage() {
                 { currentGame.title }
             </h1>
             
+            <GameTimer />
+
             <div className="relative border border-gray-400 rounded-xs overflow-hidden">
                 <img 
                     src={currentGame.image} 

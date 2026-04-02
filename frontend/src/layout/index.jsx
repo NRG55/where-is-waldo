@@ -9,7 +9,7 @@ function Layout() {
                 <Link to="/leaderboard" className="hover:text-gray-600">Leaderboard</Link>                
             </header>
 
-            <main className="grow p-6">
+            <main className="grow p-6 flex flex-col">
                 <Outlet /> 
             </main>
 

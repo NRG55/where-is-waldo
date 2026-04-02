@@ -3,7 +3,17 @@ const games = [
         id: 1, 
         slug: 'game-1', 
         title: 'Game 1', 
-        image: '/images/game-1.png'
+        image: '/images/game-1.png',
+        characters: [
+            {
+                name: "Character 1",
+                image: "",                 
+            },
+            {
+                name: "Character 2",
+                image: "",                
+            },            
+        ]
     },
     { 
         id: 2, 

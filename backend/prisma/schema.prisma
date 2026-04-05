@@ -1,8 +1,26 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
+}
+
+model Game {
+    id Int @id @default(autoincrement())
+    name String
+    imageUrl String
+    characters Character[]
+}
+
+model Character {
+    id Int @id @default(autoincrement())
+    name String
+    imageUrl String
+    xCoordinate Float
+    yCoordinate Float
+
+    gameId Int
+    game Game @relation(fields: [gameId], references: [id])
 }

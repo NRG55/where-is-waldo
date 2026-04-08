@@ -16,7 +16,7 @@ function GamePage() {
         const handleClickOutside = (event) => {
             if (containerRef.current && !containerRef.current.contains(event.target)) {
                 setCoordinates(null);
-            }
+            };
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -40,6 +40,30 @@ function GamePage() {
         setIsCloseToBottom(y + 80 > gameMap.height);
         
         setCoordinates({ x, y });
+    };
+
+    const validateLocationAndCharacter = async (characterName) => {
+        const gameMap = containerRef.current.getBoundingClientRect();
+        
+        // Coordinates to percentages (for different screen sizes)
+        const x = (coordinates.x / gameMap.width) * 100;
+        const y = (coordinates.y / gameMap.height) * 100;
+
+        const response = await fetch('http://localhost:3000/validate-location', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                gameId: currentGame.id, 
+                characterName, 
+                x: x, 
+                y: y 
+            })
+        });
+
+        const data = await response.json();
+        console.log(data.message)
+
+        setCoordinates(null);
     };
 
     return (
@@ -84,15 +108,14 @@ function GamePage() {
                             }}
                         >
                             {
-                                currentGame.characters.map(character => (
+                                currentGame.characters.map(character =>
                                     <button 
-                                        key={character.name} 
+                                        key={character.name}
                                         className="cursor-pointer w-full px-4 py-2 hover:bg-gray-100"
-                                        onClick={() => console.log(`Clicked on ${character.name}`)}
+                                        onClick={() => validateLocationAndCharacter(character.name)}
                                     >
                                         { character.name }
-                                    </button>
-                                ))
+                                    </button>)                                
                             }
                         </div>
                     </div>

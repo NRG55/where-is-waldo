@@ -1,6 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+//TODO: prisma config to a separate file
+const { Pool } = require('pg');
+const { PrismaPg } = require('@prisma/adapter-pg');
+const { PrismaClient } = require('../generated/prisma');
+require('dotenv').config();
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 const app = express();
 
@@ -9,6 +18,22 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send("Where is Waldo API");
+});
+
+app.get('/games', async (req, res) => {
+    try {
+        const games = await prisma.game.findMany({
+            include: {
+                characters: true
+            }
+        });
+        console.log(games)
+        res.json(games);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to fetch games from database" });
+    };
 });
 
 app.post('/validate-location', async (req, res) => {

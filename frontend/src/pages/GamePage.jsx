@@ -1,14 +1,19 @@
 import { useParams } from 'react-router';
 import { useState, useRef, useEffect } from 'react';
-import games from '../data/games';
+import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
 
 function GamePage() {
     const { gameSlug } = useParams();
+    const { games, loading } = useGames();
     const [coordinates, setCoordinates] = useState(null);
     const [isCloseToRight, setIsCloseToRight] = useState(false);
     const [isCloseToBottom, setIsCloseToBottom] = useState(false);
-    const containerRef = useRef(null);
+    const containerRef = useRef(null);    
+
+    if (loading) {
+        return <div>Loading Game...</div>;
+    };
 
     const currentGame = games.find(game => game.slug === gameSlug);
 
@@ -49,21 +54,33 @@ function GamePage() {
         const x = (coordinates.x / gameMap.width) * 100;
         const y = (coordinates.y / gameMap.height) * 100;
 
-        const response = await fetch('http://localhost:3000/validate-location', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                gameId: currentGame.id, 
-                characterName, 
-                x: x, 
-                y: y 
-            })
-        });
+        try {
+            const response = await fetch('http://localhost:3000/validate-location', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    gameId: currentGame.id, 
+                    characterName, 
+                    x, 
+                    y 
+                })
+            });
 
-        const data = await response.json();
-        console.log(data.message)
+            const data = await response.json();
 
-        setCoordinates(null);
+            if (data.found) {                
+                console.log(data.message);               
+                 
+            } else {
+                console.log(data.message);
+            };
+
+        } catch (error) {
+            console.log("Fetch error:", error);
+
+        } finally {
+            setCoordinates(null);
+        };
     };
 
     return (
@@ -76,7 +93,7 @@ function GamePage() {
 
             <div ref={containerRef} className="relative w-full rounded-xs border border-gray-300">
                 <img 
-                    src={currentGame.image} 
+                    src="/images/game-1.png" 
                     className="cursor-crosshair w-full block"
                     onClick={handleImageClick}
                 />

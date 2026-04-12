@@ -8,19 +8,20 @@ datasource db {
 }
 
 model Game {
-    id Int @id @default(autoincrement())
-    name String
-    imageUrl String
+    id         Int @id @default(autoincrement())
+    title      String
+    slug       String
+    imageUrl   String
     characters Character[]
 }
 
 model Character {
-    id Int @id @default(autoincrement())
-    name String
-    imageUrl String
+    id          Int @id @default(autoincrement())
+    name        String
+    imageUrl    String
     xCoordinate Float
     yCoordinate Float
 
-    gameId Int
-    game Game @relation(fields: [gameId], references: [id])
+    gameId      Int
+    game        Game @relation(fields: [gameId], references: [id])
 }

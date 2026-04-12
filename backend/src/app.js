@@ -29,7 +29,7 @@ app.get('/games', async (req, res) => {
         });
         console.log(games)
         res.json(games);
-        
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Failed to fetch games from database" });
@@ -38,7 +38,7 @@ app.get('/games', async (req, res) => {
 
 app.post('/validate-location', async (req, res) => {
     const { gameId, characterName, x, y } = req.body;
-    const margin = 3; // 3% character coordinates margin
+    const margin = 5; // 3% character coordinates margin
 
     try {
         const character = await prisma.character.findFirst({

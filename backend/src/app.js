@@ -27,8 +27,10 @@ app.post('/validate-location', async (req, res) => {
             return res.status(404).json({ message: "Character not found" });
         };
 
-        const isFound = (x - character.xCoordinate) <= margin 
-                     && (y - character.yCoordinate) <= margin;
+        const isFound = (x + margin) >= character.xCoordinate
+                     && (x - margin) <= character.xCoordinate
+                     && (y + margin) >= character.yCoordinate
+                     && (y - margin) <= character.yCoordinate;
 
         if (isFound) {           
             return res.json({ found: true, message: `You found ${character.name}!` });
@@ -37,7 +39,7 @@ app.post('/validate-location', async (req, res) => {
         res.json({ found: false, message: "Wrong character, keep looking!" });
 
     } catch (error) {
-        res.status(500).json({ error: "Something wrong on a server side" });
+        res.status(500).json({ error: "Something went wrong on a server side" });
     };   
 });
 

@@ -1,15 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-//TODO: prisma config to a separate file
-const { Pool } = require('pg');
-const { PrismaPg } = require('@prisma/adapter-pg');
-const { PrismaClient } = require('../generated/prisma');
-require('dotenv').config();
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+import express from 'express';
+import cors from 'cors';
+import 'dotenv/config';
+import prisma from './config/prisma.js';
 
 const app = express();
 

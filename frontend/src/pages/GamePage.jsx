@@ -1,82 +1,46 @@
 import { useParams } from 'react-router';
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
+import NotFoundPage from './NotFoundPage';
+import { validateLocation } from '../api/gameApi';
+import { useGameLogic } from '../hooks/useGameLogic';
+import SelectionMenu from '../components/SelectionMenu';
 
 function GamePage() {
     const { gameSlug } = useParams();
-    const { games, loading } = useGames();
-    const [coordinates, setCoordinates] = useState(null);
-    const [isCloseToRight, setIsCloseToRight] = useState(false);
-    const [isCloseToBottom, setIsCloseToBottom] = useState(false);
-    const containerRef = useRef(null);    
+    const { games, loading } = useGames();    
+    const gameMapRef = useRef(null);
+
+    const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameLogic(gameMapRef);    
 
     if (loading) {
         return <div>Loading Game...</div>;
     };
 
     const currentGame = games.find(game => game.slug === gameSlug);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (containerRef.current && !containerRef.current.contains(event.target)) {
-                setCoordinates(null);
-            };
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    if (!currentGame) return <h1>Game not found.</h1>;
-
-    const BOX_SIZE = 60; // pixels
-    const MENU_WIDTH = 180;
-    const GAP = 10;
-
-    const handleImageClick = (event) => {
-        const gameMap = event.currentTarget.getBoundingClientRect();
-        const x = event.clientX - gameMap.left;
-        const y = event.clientY - gameMap.top;
-
-        setIsCloseToRight(x + (BOX_SIZE / 2) + GAP + MENU_WIDTH > gameMap.width);
-        // TODO: to change height value after adding more characters
-        setIsCloseToBottom(y + 80 > gameMap.height);
-        
-        setCoordinates({ x, y });
+    
+    if (!currentGame) {
+        return <NotFoundPage />;
     };
 
-    const validateLocationAndCharacter = async (characterName) => {
-        const gameMap = containerRef.current.getBoundingClientRect();
-        
+     const handleValidate = async (characterName) => {
         // Coordinates to percentages (for different screen sizes)
-        const x = (coordinates.x / gameMap.width) * 100;
-        const y = (coordinates.y / gameMap.height) * 100;
+        const x = (coordinates.x / coordinates.width) * 100;
+        const y = (coordinates.y / coordinates.height) * 100;
 
         try {
-            const response = await fetch('http://localhost:3000/validate-location', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    gameId: currentGame.id, 
-                    characterName, 
-                    x, 
-                    y 
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.found) {                
-                console.log(data.message);               
+            const result = await validateLocation(currentGame.id, characterName, x, y);
+            
+            if (result.found) {                
+                console.log(result.message);               
                  
             } else {
-                console.log(data.message);
+                console.log(result.message);
             };
 
         } catch (error) {
-            console.log("Fetch error:", error);
+            console.error("Validation failed", error);
 
         } finally {
             setCoordinates(null);
@@ -91,51 +55,24 @@ function GamePage() {
             
             <GameTimer />
 
-            <div ref={containerRef} className="relative w-full rounded-xs border border-gray-300">
+            <div ref={gameMapRef} className="relative w-full rounded-xs border border-gray-300">
                 <img 
                     src="/images/game-1.png" 
                     className="cursor-crosshair w-full block"
-                    onClick={handleImageClick}
+                    onClick={handleGameMapClick}
                 />
                 
                 {
                     coordinates 
                     &&
-                    <div 
-                        className="absolute"
-                        style={{ 
-                            left: coordinates.x, 
-                            top: coordinates.y,
-                            transform: 'translate(-50%, -50%)' 
-                        }}
-                    >
-                        <div 
-                            style={{ width: BOX_SIZE, height: BOX_SIZE }}
-                            className="border border-white rounded-xs shadow-[0_0_0_2px_rgba(0,0,0,0.5)]" 
-                        />                    
-
-                        <div 
-                            className={`absolute bg-white rounded-xs 
-                                        ${isCloseToBottom ? 'bottom-0' : 'top-0'}`}
-                            style={{ 
-                                width: MENU_WIDTH,                            
-                                left: isCloseToRight ? -(MENU_WIDTH + GAP) : BOX_SIZE + GAP,
-                                top: isCloseToBottom ? 'auto' : 0,
-                                bottom: isCloseToBottom ? 0 : 'auto' 
-                            }}
-                        >
-                            {
-                                currentGame.characters.map(character =>
-                                    <button 
-                                        key={character.name}
-                                        className="cursor-pointer w-full px-4 py-2 hover:bg-gray-100"
-                                        onClick={() => validateLocationAndCharacter(character.name)}
-                                    >
-                                        { character.name }
-                                    </button>)                                
-                            }
-                        </div>
-                    </div>
+                    <SelectionMenu 
+                        positionCoordinates={coordinates} 
+                        isOnTheleft={menuPosition.isOnTheLeft}
+                        isTopAligned={menuPosition.isTopAligned}
+                        isBottomAligned={menuPosition.isBottomAligned}
+                        characters={currentGame.characters} 
+                        onSelect={handleValidate} 
+                    />
                 }
             </div>
         </div>

@@ -37,7 +37,7 @@ function SelectionMenu({ positionCoordinates, isOnTheleft, isTopAligned, isBotto
         >
             <div 
                 style={{ width: TARGET_BOX_SIZE, height: TARGET_BOX_SIZE }}
-                className="border border-white rounded-xs shadow-[0_0_0_2px_rgba(0,0,0,0.4)]" 
+                className="border border-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.4)]" 
             />
 
             <div 

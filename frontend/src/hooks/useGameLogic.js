@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 export const useGameLogic = (gameMapRef) => {
     const [coordinates, setCoordinates] = useState(null);
     const [menuPosition, setMenuPosition] = useState({ 
-                                                        isOnTheLeft: false, 
-                                                        isBottomAligned: false,
-                                                        isTopAligned: false
-                                                    });
+        isOnTheLeft: false, 
+        isBottomAligned: false,
+        isTopAligned: false
+    });
 
     useEffect(() => {
         const handleClickOutside = (event) => {

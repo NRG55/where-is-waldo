@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import gamesRoute from './routes/gamesRoute.js';
+import gameRoute from './routes/gameRoute.js';
+import scoreRoute from './routes/scoreRoute.js';
 
 const app = express();
 
@@ -9,10 +10,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send("Where is Waldo API");
+    res.send("Where is Waldo API is running");
 });
 
-app.use('/games', gamesRoute);
+app.use('/games', gameRoute);
+app.use('/scores', scoreRoute);
 
 const PORT = process.env.PORT || 3000;
 

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
 import NotFoundPage from './NotFoundPage';
-import { validateLocation } from '../api/gameApi';
+import { submitScore, validateLocation } from '../api/gameApi';
 import { useGameLogic } from '../hooks/useGameLogic';
 import SelectionMenu from '../components/SelectionMenu';
 
@@ -13,8 +13,7 @@ function GamePage() {
     const [foundCharacters, setFoundCharacters] = useState([]);
     const gameMapRef = useRef(null);
 
-    const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameLogic(gameMapRef);
-    
+    const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameLogic(gameMapRef);    
 
     if (loading) {
         return <div>Loading Game...</div>;
@@ -27,6 +26,13 @@ function GamePage() {
     };
 
     const handleValidate = async (characterName) => {
+        const isAlreadyFound = foundCharacters.some(char => char.name === characterName);
+
+        if (isAlreadyFound) {
+            setCoordinates(null);
+            return; 
+        };
+
         // Coordinates to percentages (for different screen sizes)
         const xPercent = (coordinates.x / coordinates.width) * 100;
         const yPercent = (coordinates.y / coordinates.height) * 100;
@@ -39,7 +45,7 @@ function GamePage() {
                 setFoundCharacters(prev => [
                     ...prev, 
                     { name: characterName, x: xPercent, y: yPercent }
-                ]);               
+                ]);
                  
             } else {
                 console.log(result.message);
@@ -90,7 +96,9 @@ function GamePage() {
                         isOnTheleft={menuPosition.isOnTheLeft}
                         isTopAligned={menuPosition.isTopAligned}
                         isBottomAligned={menuPosition.isBottomAligned}
-                        characters={currentGame.characters} 
+                        characters={currentGame.characters.filter(character => 
+                            !foundCharacters.some(foundCharacter => foundCharacter.name === character.name)
+                        )}
                         onSelect={handleValidate} 
                     />
                 }

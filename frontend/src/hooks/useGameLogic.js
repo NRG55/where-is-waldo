@@ -21,6 +21,11 @@ export const useGameLogic = (gameMapRef) => {
     }, [gameMapRef]);
 
     const handleGameMapClick = (event) => {
+        if (coordinates) {
+            setCoordinates(null);
+            return;
+        };
+        
         const gameMap = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - gameMap.left;
         const y = event.clientY - gameMap.top;

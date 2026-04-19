@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import gameRoute from './routes/gameRoute.js';
 import scoreRoute from './routes/scoreRoute.js';
+import sessionRoute from './routes/sessionRoute.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 app.use('/games', gameRoute);
 app.use('/scores', scoreRoute);
+app.use('/sessions', sessionRoute);
 
 const PORT = process.env.PORT || 3000;
 

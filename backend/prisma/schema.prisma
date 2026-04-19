@@ -36,3 +36,9 @@ model Score {
     gameId    Int
     game      Game     @relation(fields: [gameId], references: [id])    
 }
+
+model Session {
+    id        String      @id @default(uuid())
+    gameId    Int
+    startTime DateTime @default(now())
+}

@@ -1,28 +1,48 @@
 import { useParams } from 'react-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
 import NotFoundPage from './NotFoundPage';
-import { submitScore, validateLocation } from '../api/gameApi';
+import { startSession, submitScore, validateLocation } from '../api/gameApi';
 import { useGameLogic } from '../hooks/useGameLogic';
 import SelectionMenu from '../components/SelectionMenu';
 
 function GamePage() {
     const { gameSlug } = useParams();
     const { games, loading } = useGames();
+
+    const [sessionId, setSessionId] = useState(null);
     const [foundCharacters, setFoundCharacters] = useState([]);
+
     const gameMapRef = useRef(null);
 
     const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameLogic(gameMapRef);    
 
-    if (loading) {
-        return <div>Loading Game...</div>;
-    };
+    const currentGame = games.find(game => game.slug === gameSlug);   
 
-    const currentGame = games.find(game => game.slug === gameSlug);
-    
+    useEffect(() => {
+        if (!currentGame || sessionId) return;
+
+        const initGame = async () => {
+            try {
+                const data = await startSession(currentGame.id);
+
+                setSessionId(data.sessionId);
+
+            } catch (error) {                
+                console.log(error);
+            };
+        };
+
+        initGame();
+    }, [currentGame]);
+
     if (!currentGame) {
         return <NotFoundPage />;
+    };
+
+    if (loading) {
+        return <div>Loading Game...</div>;
     };
 
     const handleValidate = async (characterName) => {

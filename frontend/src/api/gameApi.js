@@ -1,6 +1,6 @@
 const SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
 
-export const startSession = async (gameId) => {
+export const startGameSession = async (gameId) => {
     const response = await fetch(`${SERVER_DOMAIN}/sessions/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -10,7 +10,7 @@ export const startSession = async (gameId) => {
     if (!response.ok) {
         throw new Error("Failed to start session");
     };
-    
+
     return response.json();
 };
 
@@ -28,14 +28,13 @@ export const validateLocation = async (gameId, characterName, x, y) => {
     return response.json();
 };
 
-export const submitScore = async (gameId, username, time) => {
+export const submitScore = async (sessionId, username) => {
     const response = await fetch(`${SERVER_DOMAIN}/scores/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-            gameId, 
-            username, 
-            time
+            sessionId, 
+            username            
         })
     });
 

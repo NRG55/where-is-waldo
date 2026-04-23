@@ -3,50 +3,27 @@ import { useEffect, useRef, useState } from 'react';
 import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
 import NotFoundPage from './NotFoundPage';
-import { startGameSession, submitScore, validateLocation } from '../api/gameApi';
-import { useGameLogic } from '../hooks/useGameLogic';
+import { submitScore, validateLocation } from '../api/gameApi';
+import { useGameMapInteraction } from '../hooks/useGameMapInteraction';
 import SelectionMenu from '../components/SelectionMenu';
+import { useGameSession } from '../hooks/useGameSession';
 
 function GamePage() {
     const { gameSlug } = useParams();
     const { games, loading } = useGames();
-
-    const [gameSessionId, setGameSessionId] = useState(null);
-    const [foundCharacters, setFoundCharacters] = useState([]);
-    const [isGameOver, setIsGameOver] = useState(false);
-
     const gameMapRef = useRef(null);
-
-    const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameLogic(gameMapRef);    
 
     const currentGame = games.find(game => game.slug === gameSlug);
 
-    // init game
+    const { gameSessionId, foundCharacters, setFoundCharacters, isGameOver } = useGameSession(currentGame);
+    const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameMapInteraction(gameMapRef);
+
     useEffect(() => {
-        if (!currentGame || gameSessionId) return;
-
-        const initGame = async () => {
-            try {
-                const data = await startGameSession(currentGame.id);
-
-                setGameSessionId(data.sessionId);
-
-            } catch (error) {                
-                console.log(error);
-            };
+        if (isGameOver && gameSessionId) {
+            handleFinishGame();
         };
 
-        initGame();
-    }, [currentGame]);
-
-    // check if game is over
-    useEffect(() => {
-        if (currentGame && foundCharacters.length === currentGame.characters.length && !isGameOver) {
-                setIsGameOver(true);
-                handleFinishGame();
-            };
-
-    }, [foundCharacters, currentGame]);
+    }, [isGameOver, gameSessionId]);    
 
     const handleFinishGame = async () => {
         const username = "John";
@@ -54,10 +31,10 @@ function GamePage() {
         try {            
             await submitScore(gameSessionId, username);
 
-            console.log("Game is finished, score is saved.");
-            
+            console.log("Score saved successfully");
+
         } catch (error) {
-            console.log("Failed to finish the game, score is not saved", error);
+            console.log("Failed to save score", error);
         };
     };
 

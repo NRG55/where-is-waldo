@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 
-function GameTimer() {
+function GameTimer({ isActive }) {
     const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
         let interval = null;
 
-        interval = setInterval(() => {
-            setSeconds((prev) => prev + 1);
-        }, 1000);
+        if (isActive) {
+            interval = setInterval(() => {
+                setSeconds((prev) => prev + 1);
+            }, 1000);
+
+        } else {           
+            clearInterval(interval);
+        };
 
         return () => clearInterval(interval);
-    }, []);
+    }, [isActive]);
 
     const formatTime = (totalSeconds) => {
         const minutes = Math.floor(totalSeconds / 60);

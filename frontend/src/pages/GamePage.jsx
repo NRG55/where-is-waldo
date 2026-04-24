@@ -7,6 +7,7 @@ import { submitScore, validateLocation } from '../api/gameApi';
 import { useGameMapInteraction } from '../hooks/useGameMapInteraction';
 import SelectionMenu from '../components/SelectionMenu';
 import { useGameSession } from '../hooks/useGameSession';
+import NameEntryModal from '../components/NameEntryModal';
 
 function GamePage() {
     const { gameSlug } = useParams();
@@ -86,8 +87,8 @@ function GamePage() {
                 { currentGame.title }
             </h1>
             
-            <GameTimer />
-
+            <GameTimer isActive={!isGameOver}  />
+            
             <div ref={gameMapRef} className="relative w-full rounded-xs border border-gray-300">
                 <img 
                     src="/images/game-1.png" 
@@ -124,6 +125,8 @@ function GamePage() {
                     />
                 }
             </div>
+
+            <NameEntryModal/>
         </div>
     );
 };

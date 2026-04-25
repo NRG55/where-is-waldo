@@ -13,6 +13,8 @@ function GamePage() {
     const { gameSlug } = useParams();
     const { games, loading } = useGames();
     const gameMapRef = useRef(null);
+    const [showModal, setShowModal] = useState(false);
+    const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
     const currentGame = games.find(game => game.slug === gameSlug);
 
@@ -21,21 +23,25 @@ function GamePage() {
 
     useEffect(() => {
         if (isGameOver && gameSessionId) {
-            handleFinishGame();
+            setShowModal(true);
         };
 
     }, [isGameOver, gameSessionId]);    
 
-    const handleFinishGame = async () => {
-        const username = "John";
+    const handleSubmitScore = async (username) => {
+        setIsSubmittingScore(true);
 
         try {            
             await submitScore(gameSessionId, username);
-
             console.log("Score saved successfully");
+
+            setShowModal(false);
 
         } catch (error) {
             console.log("Failed to save score", error);
+
+        } finally {
+            setIsSubmittingScore(false);
         };
     };
 
@@ -74,7 +80,7 @@ function GamePage() {
             };
 
         } catch (error) {
-            console.error("Validation failed", error);
+            console.error("Character location validation failed", error);
 
         } finally {
             setCoordinates(null);
@@ -126,7 +132,14 @@ function GamePage() {
                 }
             </div>
 
-            <NameEntryModal/>
+            {
+                showModal 
+                &&
+                <NameEntryModal 
+                    onSubmit={handleSubmitScore} 
+                    isSubmitting={isSubmittingScore} 
+                />                
+            }
         </div>
     );
 };

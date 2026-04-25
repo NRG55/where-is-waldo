@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 
-const NameEntryModal = () => {
+const NameEntryModal = ({ onSubmit, isSubmitting }) => {
     const [name, setName] = useState("");
 
-    const handleSubmit = () => {
-        
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Stop page reload
+
+        onSubmit(name)
     };
 
     return (
@@ -33,9 +35,10 @@ const NameEntryModal = () => {
                     
                     <button 
                         type="submit"
+                        disabled={isSubmitting || !name.trim()}
                         className="w-full bg-gray-700 hover:bg-gray-900 disabled:bg-gray-400 text-white font-bold py-3 rounded-xs transition"
                     >
-                        Submit Score
+                        { isSubmitting ? "Saving..." : "Submit Score" }
                     </button>
 
                     <Link 

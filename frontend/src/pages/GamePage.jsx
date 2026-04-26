@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useEffect, useRef, useState } from 'react';
 import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
@@ -13,6 +13,7 @@ function GamePage() {
     const { gameSlug } = useParams();
     const { games, loading } = useGames();
     const gameMapRef = useRef(null);
+    const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
@@ -36,6 +37,8 @@ function GamePage() {
             console.log("Score saved successfully");
 
             setShowModal(false);
+
+            navigate(`/leaderboard/${gameSlug}`);
 
         } catch (error) {
             console.log("Failed to save score", error);

@@ -1,13 +1,10 @@
-import { Outlet, Link } from 'react-router';
+import { Outlet } from 'react-router';
+import Header from '../components/Header';
 
 function Layout() {
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="px-6 py-4 flex justify-between gap-4">
-                <Link to="/" className="hover:text-gray-600">Home</Link>                
-                    
-                <Link to="/leaderboard" className="hover:text-gray-600">Leaderboard</Link>                
-            </header>
+            <Header />
 
             <main className="grow p-6 flex flex-col">
                 <Outlet /> 

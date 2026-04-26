@@ -3,6 +3,7 @@ import Layout from '../layout';
 import HomePage from '../pages/HomePage';
 import GamePage from '../pages/GamePage';
 import NotFoundPage from '../pages/NotFoundPage';
+import LeaderboardPage from '../pages/LeaderboardPage';
 
 const router = createBrowserRouter([
     {
@@ -19,8 +20,8 @@ const router = createBrowserRouter([
                 element: <GamePage />
             },
             {
-                path: 'leaderboard',
-                element: <h1>Leaderboard</h1>
+                path: 'leaderboard/:gameSlug',
+                element: <LeaderboardPage />
             },
             { 
                 path: '*', 

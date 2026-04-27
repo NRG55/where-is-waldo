@@ -26,3 +26,21 @@ export const saveScore = async (sessionId, username) => {
 
     return savedScore;
 };
+
+export const getScores = async (gameSlug) => {
+    return await prisma.score.findMany({
+        where: {
+            game: {
+                slug: gameSlug
+            }
+        },
+        orderBy: {
+            time: 'asc'
+        },
+        select: {
+            id: true,
+            username: true,
+            time: true
+        }
+    });
+};

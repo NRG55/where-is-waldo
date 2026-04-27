@@ -25,3 +25,17 @@ export const submitScore = async (req, res) => {
         res.status(500).json({ error: "Failed to save score" });
     };
 };
+
+export const getLeaderboard = async (req, res) => {
+    const { gameSlug } = req.params;
+
+    try {
+        const scores = await scoreService.getScores(gameSlug);
+
+        res.status(200).json(scores);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Failed to fetch leaderboard scores" });
+    };
+};

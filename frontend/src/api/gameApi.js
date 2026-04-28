@@ -44,3 +44,16 @@ export const submitScore = async (sessionId, username) => {
 
     return response.json();
 };
+
+export const getLeaderboard = async (gameSlug) => {
+    const response = await fetch(`${SERVER_DOMAIN}/scores/leaderboard/${gameSlug}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch leaderboard');
+    };
+
+    return response.json();
+};

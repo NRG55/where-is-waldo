@@ -33,12 +33,12 @@ function GamePage() {
         setIsSubmittingScore(true);
 
         try {            
-            await submitScore(gameSessionId, username);
+            const response = await submitScore(gameSessionId, username);
             console.log("Score saved successfully");
 
             setShowModal(false);
 
-            navigate(`/leaderboard/${gameSlug}`);
+            navigate(`/leaderboard/${gameSlug}`, { state: { newScoreId: response.score.id } });
 
         } catch (error) {
             console.log("Failed to save score", error);

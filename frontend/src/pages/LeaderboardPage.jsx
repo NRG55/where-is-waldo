@@ -1,4 +1,4 @@
-import { useParams, NavLink } from 'react-router';
+import { useParams, NavLink, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 import useGames from '../context/GameContext';
 import { getLeaderboard } from '../api/gameApi';
@@ -6,8 +6,11 @@ import { getLeaderboard } from '../api/gameApi';
 const LeaderboardPage = () => {
     const { gameSlug } = useParams();
     const { games } = useGames();
+    const location = useLocation();
     const [leaderboardData, setLeaderboardData] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const highlightScoreId = location.state?.newScoreId;
 
     useEffect(() => {
         const fetchScores = async () => {
@@ -69,19 +72,26 @@ const LeaderboardPage = () => {
                         </thead>
 
                         <tbody className="divide-y divide-gray-100">
-                            {leaderboardData.map((element, index) =>
-                                <tr key={element.id}>
-                                    <td className="px-6 py-4 text-sm text-gray-400">
-                                        {index + 1}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-800">
-                                        {element.username}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-right">
-                                        {(element.time / 1000).toFixed(2)}s
-                                    </td>
-                                </tr>
-                            )}
+                            {leaderboardData.map((element, index) => {
+                                const isHighlighted = element.id === highlightScoreId;
+
+                                return (
+                                    <tr 
+                                        key={element.id}
+                                        className={isHighlighted ? "bg-gray-50 outline outline-gray-400 -outline-offset-2" : ""}
+                                    >
+                                        <td className="px-6 py-4 text-sm text-gray-400">
+                                            {index + 1}
+                                        </td>
+                                        <td className={`px-6 py-4 text-sm text-gray-800 ${isHighlighted ? "font-bold" : ""}`}>
+                                            {element.username}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-right">
+                                            {(element.time / 1000).toFixed(2)}s
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                     : 

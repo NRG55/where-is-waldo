@@ -8,6 +8,7 @@ import { useGameMapInteraction } from '../hooks/useGameMapInteraction';
 import SelectionMenu from '../components/SelectionMenu';
 import { useGameSession } from '../hooks/useGameSession';
 import NameEntryModal from '../components/NameEntryModal';
+import CharactersToFind from '../components/CharactersToFind';
 
 function GamePage() {
     const { gameSlug } = useParams();
@@ -97,6 +98,11 @@ function GamePage() {
             </h1>
             
             <GameTimer isActive={!isGameOver}  />
+
+            <CharactersToFind 
+                characters={currentGame.characters} 
+                foundCharacters={foundCharacters} 
+            />
             
             <div ref={gameMapRef} className="relative w-full rounded-xs border border-gray-300">
                 <img 
@@ -112,7 +118,7 @@ function GamePage() {
                             className="absolute w-15 h-15 border border-green-500 rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.4)] pointer-events-none -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
                             style={{ left: `${character.x}%`, top: `${character.y}%` }}
                         >
-                            <span className="absolute -top-8 bg-green-500 text-white text-sm px-1 rounded-xs">
+                            <span className="absolute -top-7 bg-green-500 text-white text-xs px-1 rounded-xs">
                                 {character.name}
                             </span>
                         </div>

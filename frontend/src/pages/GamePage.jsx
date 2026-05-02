@@ -9,13 +9,15 @@ import SelectionMenu from '../components/SelectionMenu';
 import { useGameSession } from '../hooks/useGameSession';
 import NameEntryModal from '../components/NameEntryModal';
 import CharactersToFind from '../components/CharactersToFind';
+import Toast from '../components/Toast';
 
 function GamePage() {
     const { gameSlug } = useParams();
     const { games, loading } = useGames();
     const gameMapRef = useRef(null);
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const [showNameEntryModal, setShowNameEntryModal] = useState(false);
     const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
     const currentGame = games.find(game => game.slug === gameSlug);
@@ -25,7 +27,7 @@ function GamePage() {
 
     useEffect(() => {
         if (isGameOver && gameSessionId) {
-            setShowModal(true);
+            setShowNameEntryModal(true);
         };
 
     }, [isGameOver, gameSessionId]);    
@@ -37,7 +39,7 @@ function GamePage() {
             const response = await submitScore(gameSessionId, username);
             console.log("Score saved successfully");
 
-            setShowModal(false);
+            setShowNameEntryModal(false);
 
             navigate(`/leaderboard/${gameSlug}`, { state: { newScoreId: response.score.id } });
 
@@ -78,13 +80,24 @@ function GamePage() {
                     ...prev, 
                     { name: characterName, x: xPercent, y: yPercent }
                 ]);
+
+                setNotification({ 
+                    message: `You found ${characterName}!`, 
+                    type: "success", 
+                    id: Date.now() // for a unique Toast component key so the same message still trigger a new Toast and its css transition
+                });
                  
             } else {
                 console.log(result.message);
+                setNotification({ 
+                    message: `That's not ${characterName}. Keep looking!`, 
+                    type: "error", 
+                    id: Date.now() 
+                });
             };
 
         } catch (error) {
-            console.error("Character location validation failed", error);
+            console.log("Character location validation failed", error);
 
         } finally {
             setCoordinates(null);
@@ -115,7 +128,7 @@ function GamePage() {
                     foundCharacters.map((character) =>
                         <div 
                             key={character.name}
-                            className="absolute w-15 h-15 border border-green-500 rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.4)] pointer-events-none -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+                            className="absolute w-15 h-15 border border-green-500 rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.4)] pointer-events-none -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-50"
                             style={{ left: `${character.x}%`, top: `${character.y}%` }}
                         >
                             <span className="absolute -top-7 bg-green-500 text-white text-xs px-1 rounded-xs">
@@ -142,7 +155,18 @@ function GamePage() {
             </div>
 
             {
-                showModal 
+                notification 
+                &&
+                <Toast
+                    key={notification.id} 
+                    message={notification.message} 
+                    type={notification.type} 
+                    onClose={() => setNotification(null)} 
+                />
+            }
+
+            {
+                showNameEntryModal 
                 &&
                 <NameEntryModal 
                     onSubmit={handleSubmitScore} 

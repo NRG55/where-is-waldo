@@ -109,13 +109,21 @@ function GamePage() {
             <h1 className="text-xl text-center mb-4">
                 { currentGame.title }
             </h1>
-            
-            <GameTimer isActive={!isGameOver}  />
 
-            <CharactersToFind 
-                characters={currentGame.characters} 
-                foundCharacters={foundCharacters} 
-            />
+            <div className="sticky top-0 grid grid-cols-2 md:grid-cols-3 items-center mb-6 z-100">
+                <div className="hidden md:block"/>               
+
+                <div className="justify-self-start md:justify-self-center">
+                    <CharactersToFind 
+                        characters={currentGame.characters} 
+                        foundCharacters={foundCharacters} 
+                    />
+                </div>
+
+                <div className="justify-self-end">
+                    <GameTimer isActive={!isGameOver}  />
+                </div>
+            </div>
             
             <div ref={gameMapRef} className="relative w-full rounded-xs border border-gray-300">
                 <img 

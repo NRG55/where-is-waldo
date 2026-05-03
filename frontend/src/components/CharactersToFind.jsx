@@ -1,6 +1,6 @@
 const CharactersToFind = ({ characters, foundCharacters }) => {
     return (
-        <div className="flex justify-center gap-6 mb-6 p-4 bg-white sticky top-0 z-10">
+        <div className="flex justify-center gap-6 mb-6 p-4 bg-white rounded-xs">
             {characters.map((character) => {
                 const isFound = foundCharacters.some(foundCharacter => foundCharacter.name === character.name);
                 

@@ -29,8 +29,8 @@ function GameTimer({ isActive }) {
     };
 
     return (
-        <div className="flex justify-end">
-            <div className="mb-4 border border-gray-100 rounded-xs px-4 py-2">
+        <div className="flex">
+            <div className="mr-4 border border-gray-100 rounded-xs px-4 py-2 bg-white">
                 { formatTime(seconds) }
             </div>
         </div>

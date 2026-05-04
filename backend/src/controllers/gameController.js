@@ -22,10 +22,14 @@ export const validateLocation = async (req, res) => {
         };
 
         if (result.found) {
-            return res.json({ found: true, message: `You found ${result.characterName}!` });
+            return res.json({ 
+                found: true,
+                x: result.x,
+                y: result.y
+            });
         };
         
-        res.json({ found: false, message: "Keep looking!" });
+        res.json({ found: false });
 
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });

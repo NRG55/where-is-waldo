@@ -26,7 +26,12 @@ export const checkCharacterLocation = async (gameId, characterName, x, y) => {
                  && (y - margin) <= character.yCoordinate;
 
     if (isFound) {
-        return { found: true, characterName: character.name };
+        return { 
+            found: true, 
+            characterName: character.name,
+            x: character.xCoordinate,
+            y: character.yCoordinate 
+        };
     };
 
     return { found: false };

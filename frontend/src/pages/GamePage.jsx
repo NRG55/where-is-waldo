@@ -74,11 +74,10 @@ function GamePage() {
         try {
             const result = await validateLocation(currentGame.id, characterName, xPercent, yPercent);
             
-            if (result.found) {                
-                console.log(result.message);
+            if (result.found) {
                 setFoundCharacters(prev => [
                     ...prev, 
-                    { name: characterName, x: xPercent, y: yPercent }
+                    { name: characterName, x: result.x, y: result.y }
                 ]);
 
                 setNotification({ 
@@ -88,7 +87,6 @@ function GamePage() {
                 });
                  
             } else {
-                console.log(result.message);
                 setNotification({ 
                     message: `That's not ${characterName}. Keep looking!`, 
                     type: "error", 

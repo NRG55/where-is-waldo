@@ -1,7 +1,7 @@
-const { Pool } = require('pg');
-const { PrismaPg } = require('@prisma/adapter-pg');
-const { PrismaClient } = require('../generated/prisma');
-require('dotenv').config();
+import { Pool} from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '../generated/prisma/index.js'; // Ensure .js extension
+import 'dotenv/config';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -12,21 +12,52 @@ async function main() {
     await prisma.game.deleteMany();
 
     await prisma.game.create({
-            data: {
-            name: "Game 1",
-            imageUrl: "",
+        data: {
+            title: "Summer Beach",
+            slug: "beach",
+            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1777988205/beach_cudhzh.png",
             characters: {
                 create: [
-                    { name: "Waldo", imageUrl: "", xCoordinate: 10, yCoordinate: 10 },
-                    { name: "Character 2", imageUrl: "", xCoordinate: 20, yCoordinate: 20 },
-                    { name: "Character 3", imageUrl: "", xCoordinate: 30, yCoordinate: 30 }
+                    { name: "Waldo", imageUrl: "", xCoordinate: 50, yCoordinate: 50 },
+                    { name: "Wizard", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
+                    { name: "Wenda", imageUrl: "", xCoordinate: 0, yCoordinate: 0 }
                 ]
             }
+        }
+    });
+
+    await prisma.game.create({
+        data: {
+            title: "Ski Resort",
+            slug: "ski",
+            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1777988222/ski_mhcifi.png",
+            characters: {
+                create: [
+                    { name: "Waldo", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
+                    { name: "Wizard", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
+                    { name: "Wenda", imageUrl: "", xCoordinate: 0, yCoordinate: 0 }
+                ]
             }
-        });
+        }
+    });
+
+    await prisma.game.create({
+        data: {
+            title: "City",
+            slug: "city",
+            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1777988237/city_nildyy.png",
+            characters: {
+                create: [
+                    { name: "Waldo", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
+                    { name: "Wizard", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
+                    { name: "Wenda", imageUrl: "", xCoordinate: 0, yCoordinate: 0 }
+                ]
+            }
+        }
+    });
 
     console.log("Where_is_waldo db seeded successfully!");
-}
+};
 
 main()
     .catch((error) => {

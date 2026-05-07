@@ -1,6 +1,7 @@
 import { Pool} from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../generated/prisma/index.js'; // Ensure .js extension
+import { PrismaClient } from '../generated/prisma/index.js';
+import { beachCharacters } from './seedData.js';
 import 'dotenv/config';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -15,13 +16,9 @@ async function main() {
         data: {
             title: "Summer Beach",
             slug: "beach",
-            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1777988205/beach_cudhzh.png",
+            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1778157010/beach_ikou4u.jpg",
             characters: {
-                create: [
-                    { name: "Waldo", imageUrl: "", xCoordinate: 50, yCoordinate: 50 },
-                    { name: "Wizard", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
-                    { name: "Wenda", imageUrl: "", xCoordinate: 0, yCoordinate: 0 }
-                ]
+                create: beachCharacters
             }
         }
     });
@@ -30,7 +27,7 @@ async function main() {
         data: {
             title: "Ski Resort",
             slug: "ski",
-            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1777988222/ski_mhcifi.png",
+            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1778156606/ski_diwpsp.jpg",
             characters: {
                 create: [
                     { name: "Waldo", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
@@ -43,9 +40,9 @@ async function main() {
 
     await prisma.game.create({
         data: {
-            title: "City",
-            slug: "city",
-            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1777988237/city_nildyy.png",
+            title: "Space",
+            slug: "space",
+            imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1778156994/space_ytzhlk.jpg",
             characters: {
                 create: [
                     { name: "Waldo", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },

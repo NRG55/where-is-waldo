@@ -8,7 +8,7 @@ export const getAllGamesWithCharacters = async () => {
 
 export const checkCharacterLocation = async (gameId, characterName, x, y) => {
     const margin = 5;
-
+console.log(x, y)
     const character = await prisma.character.findFirst({
         where: {
             gameId: Number(gameId),
@@ -19,7 +19,7 @@ export const checkCharacterLocation = async (gameId, characterName, x, y) => {
     if (!character) {
         return { error: "NOT_FOUND" };
     };
-
+console.log(character)
     const isFound = (x + margin) >= character.xCoordinate
                  && (x - margin) <= character.xCoordinate
                  && (y + margin) >= character.yCoordinate

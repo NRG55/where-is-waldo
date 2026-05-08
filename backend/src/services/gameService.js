@@ -7,7 +7,7 @@ export const getAllGamesWithCharacters = async () => {
 };
 
 export const checkCharacterLocation = async (gameId, characterName, x, y) => {
-    const margin = 5;
+    const margin = 3;
 console.log(x, y)
     const character = await prisma.character.findFirst({
         where: {

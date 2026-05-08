@@ -1,7 +1,7 @@
 import { Pool} from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/index.js';
-import { beachCharacters } from './seedData.js';
+import { beachCharacters, skiCharacters } from './seedData.js';
 import 'dotenv/config';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -29,11 +29,7 @@ async function main() {
             slug: "ski",
             imageUrl: "https://res.cloudinary.com/dlc8atazj/image/upload/v1778156606/ski_diwpsp.jpg",
             characters: {
-                create: [
-                    { name: "Waldo", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
-                    { name: "Wizard", imageUrl: "", xCoordinate: 0, yCoordinate: 0 },
-                    { name: "Wenda", imageUrl: "", xCoordinate: 0, yCoordinate: 0 }
-                ]
+                create: skiCharacters
             }
         }
     });

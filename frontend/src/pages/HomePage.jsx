@@ -20,7 +20,7 @@ function HomePage() {
                         <GameCard 
                             key={game.id} 
                             title={game.title} 
-                            image="/images/game-1.png" 
+                            image={game.imageUrl} 
                             path={`/game/${game.slug}`} 
                         />
                     ))

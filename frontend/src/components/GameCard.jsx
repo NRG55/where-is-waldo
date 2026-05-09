@@ -12,7 +12,7 @@ function GameCard({ title, image, path }) {
 
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                     <span className="rounded-xs bg-gray-800 px-6 py-2 text-sm font-bold text-white">
-                        Play
+                        Start Game
                     </span>
                 </div>
             </div>

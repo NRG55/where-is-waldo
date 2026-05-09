@@ -1,5 +1,4 @@
-const TARGET_BOX_SIZE = 60; 
-const MENU_WIDTH = 180;
+const TARGET_BOX_SIZE = 60;
 const GAP = 10;
 
 function SelectionMenu({ positionCoordinates, isOnTheleft, isTopAligned, isBottomAligned, characters, onSelect }) {   
@@ -41,9 +40,8 @@ function SelectionMenu({ positionCoordinates, isOnTheleft, isTopAligned, isBotto
             />
 
             <div 
-                className="absolute bg-white rounded-xs border border-gray-200 pointer-events-auto"
-                style={{ 
-                    width: MENU_WIDTH,                            
+                className="absolute bg-white rounded-xs border border-gray-200 pointer-events-auto w-max min-w-35"
+                style={{
                     ...getHorizontalMenuPositionStyles(),
                     ...getVerticalMenuPositionStyles()
                 }}
@@ -52,10 +50,18 @@ function SelectionMenu({ positionCoordinates, isOnTheleft, isTopAligned, isBotto
                     characters?.map((character) => (
                         <button 
                             key={character.name}
-                            className="w-full px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                            className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer"
                             onClick={() => onSelect(character.name)}
                         >
-                            {character.name}
+                            <img 
+                                src={character.imageUrl} 
+                                alt={character.name}
+                                className="w-10 h-10 rounded-full object-cover border border-gray-200 bg-gray-50"
+                            />                            
+
+                            <span className="font-medium text-gray-800">
+                                {character.name}
+                            </span>
                         </button>
                     ))
                 }

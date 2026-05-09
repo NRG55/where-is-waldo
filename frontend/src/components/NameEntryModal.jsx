@@ -11,7 +11,7 @@ const NameEntryModal = ({ onSubmit, isSubmitting }) => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-10">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-200">
             <div className="max-w-sm w-full p-8 text-center bg-white rounded-xs">
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">
                     Congratulations!

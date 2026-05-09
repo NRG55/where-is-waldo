@@ -1,6 +1,6 @@
 const CharactersToFind = ({ characters, foundCharacters }) => {
     return (
-        <div className="flex justify-center gap-6 mb-6 p-4 bg-white rounded-xs">
+        <div className="flex justify-center gap-6 p-4 bg-white rounded-xs">
             {characters.map((character) => {
                 const isFound = foundCharacters.some(foundCharacter => foundCharacter.name === character.name);
                 
@@ -13,7 +13,7 @@ const CharactersToFind = ({ characters, foundCharacters }) => {
                             <img 
                                 src={character.imageUrl} 
                                 alt={character.name} 
-                                className={`w-14 h-14 rounded-full border-2 object-cover ${isFound ? "border-green-500" : "border-gray-100"}`}
+                                className={`w-18 h-18 rounded-full border-2 object-cover ${isFound ? "border-green-500" : "border-gray-100"}`}
                             />
 
                             {

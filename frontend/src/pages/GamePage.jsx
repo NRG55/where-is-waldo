@@ -24,7 +24,7 @@ function GamePage() {
 
     const { gameSessionId, foundCharacters, setFoundCharacters, isGameOver } = useGameSession(currentGame);
     const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameMapInteraction(gameMapRef);
-
+console.log(coordinates)
     useEffect(() => {
         if (isGameOver && gameSessionId) {
             setShowNameEntryModal(true);
@@ -111,7 +111,7 @@ function GamePage() {
             <div className="sticky top-0 grid grid-cols-2 md:grid-cols-3 items-center mb-6 z-100">
                 <div className="hidden md:block"/>               
 
-                <div className="justify-self-start md:justify-self-center">
+                <div className="justify-self-start md:justify-self-center min-w-70">
                     <CharactersToFind 
                         characters={currentGame.characters} 
                         foundCharacters={foundCharacters} 
@@ -125,7 +125,7 @@ function GamePage() {
             
             <div ref={gameMapRef} className="relative w-full rounded-xs border border-gray-300">
                 <img 
-                    src="/images/game-1.png" 
+                    src={currentGame.imageUrl} 
                     className="cursor-crosshair w-full block"
                     onClick={handleGameMapClick}
                 />

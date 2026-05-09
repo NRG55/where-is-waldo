@@ -49,14 +49,14 @@ console.log(coordinates)
         } finally {
             setIsSubmittingScore(false);
         };
+    };    
+
+    if (loading) {
+        return <div>Loading Game...</div>;
     };
 
     if (!currentGame) {
         return <NotFoundPage />;
-    };
-
-    if (loading) {
-        return <div>Loading Game...</div>;
     };
 
     const handleValidate = async (characterName) => {

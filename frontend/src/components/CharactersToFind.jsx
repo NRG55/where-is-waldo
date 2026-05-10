@@ -13,7 +13,7 @@ const CharactersToFind = ({ characters, foundCharacters }) => {
                             <img 
                                 src={character.imageUrl} 
                                 alt={character.name} 
-                                className={`w-18 h-18 rounded-full border-2 object-cover ${isFound ? "border-green-500" : "border-gray-100"}`}
+                                className={`w-12 h-12 md:w-18 md:h-18 rounded-full border-2 object-cover ${isFound ? "border-green-500" : "border-gray-100"}`}
                             />
 
                             {

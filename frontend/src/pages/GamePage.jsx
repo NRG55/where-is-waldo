@@ -111,7 +111,7 @@ console.log(coordinates)
             <div className="sticky top-0 grid grid-cols-2 md:grid-cols-3 items-center mb-6 z-100">
                 <div className="hidden md:block"/>               
 
-                <div className="justify-self-start md:justify-self-center min-w-70">
+                <div className="justify-self-start md:justify-self-center min-w-60">
                     <CharactersToFind 
                         characters={currentGame.characters} 
                         foundCharacters={foundCharacters} 
@@ -123,10 +123,10 @@ console.log(coordinates)
                 </div>
             </div>
             
-            <div ref={gameMapRef} className="relative w-full rounded-xs border border-gray-300">
+            <div ref={gameMapRef} className="relative overflow-auto rounded-xs border border-gray-300 cursor-crosshair">
                 <img 
                     src={currentGame.imageUrl} 
-                    className="cursor-crosshair w-full block"
+                    className="block min-w-400 xl:min-w-full h-auto"
                     onClick={handleGameMapClick}
                 />
 

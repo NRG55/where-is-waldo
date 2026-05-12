@@ -9,14 +9,14 @@ const Header = () => {
     const currentGameSlug = gameSlug || (games.length > 0 ? games[0].slug : "");
 
     return (
-        <header className="px-6 py-4 flex justify-between items-center bg-[#002B55] border-b border-gray-900">
+        <header className="px-6 py-4 flex justify-between items-center bg-white border-b border-gray-300">
             <Link to="/" className="flex items-center gap-2 group">
                 <img 
                     src={logo} 
                     alt="Where's Waldo Logo" 
                     className="w-10 h-10 object-contain group-hover:scale-110 transition-transform" 
                 />
-                <span className="text-gray-200 font-bold group-hover:text-white transition">
+                <span className="text-gray-800 font-bold group-hover:text-black transition">
                     Where's Waldo
                 </span>
             </Link>                          
@@ -24,8 +24,8 @@ const Header = () => {
             <NavLink 
                 to={`/leaderboard/${currentGameSlug}`} 
                 className={({ isActive }) => 
-                    `font-bold text-sm text-gray-200 transition border-b  hover:text-white ${
-                        isActive ? "border-white" : "text-gray-200 border-transparent"
+                    `font-bold text-sm text-gray-800 transition border-b hover:text-black ${
+                        isActive ? "border-gray-800" : "border-transparent"
                     }`
                 }
             >

@@ -10,7 +10,7 @@ function HomePage() {
 
     return (
         <div className="mx-auto max-w-6xl py-10">
-            <h1 className="mb-8 text-center text-2xl text-gray-200">
+            <h1 className="mb-8 text-center text-2xl">
                 Choose a map
             </h1>
             

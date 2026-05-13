@@ -22,6 +22,10 @@ export const submitScore = async (req, res) => {
             return res.status(404).json({ error: "Invalid game session" });
         };
 
+        if (error.message === "SESSION_NOT_VALIDATED") {
+            return res.status(400).json({ error: "Invalid game session end time" });
+        };
+
         res.status(500).json({ error: "Failed to save score" });
     };
 };

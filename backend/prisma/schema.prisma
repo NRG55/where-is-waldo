@@ -41,4 +41,5 @@ model Session {
     id        String      @id @default(uuid())
     gameId    Int
     startTime DateTime @default(now())
+    endTime   DateTime @default(now())
 }

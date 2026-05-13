@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { startSession } from '../controllers/sessionController.js';
+import { startSession, finishSession } from '../controllers/sessionController.js';
 
 const router = Router();
 
 router.post('/start', startSession);
+router.post('/finish', finishSession);
 
 export default router;

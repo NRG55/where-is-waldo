@@ -9,6 +9,10 @@ export const saveScore = async (sessionId, username) => {
         throw new Error("SESSION_NOT_FOUND");
     };
 
+    if (!session.endTime) {
+        throw new Error("SESSION_NOT_VALIDATED");
+    };
+
     const endTime = new Date();
     const durationInMilliseconds = endTime.getTime() - session.startTime.getTime();
 

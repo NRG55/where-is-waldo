@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { formatLeaderboardTime } from '../utils/format';
 
-const NameEntryModal = ({ onSubmit, isSubmitting }) => {
+const NameEntryModal = ({ onSubmit, isSubmitting, finalTime, onClose }) => {
     const [name, setName] = useState("");
 
     const handleSubmit = (event) => {
@@ -12,13 +13,52 @@ const NameEntryModal = ({ onSubmit, isSubmitting }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-200">
-            <div className="max-w-sm w-full p-8 text-center bg-white rounded-xs">
+            <div
+                role="dialog" 
+                aria-modal="true" 
+                className="relative max-w-sm w-full p-8 text-center bg-white rounded-xs"
+            >
+                <button
+                    onClick={onClose}
+                    type="button"
+                    className="absolute top-4 right-4 cursor-pointer p-1 text-gray-500 hover:text-gray-800 transition"
+                    aria-label="Close modal"
+                >
+                    <svg 
+                        xmlns="w3.org" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        strokeWidth={2.5} 
+                        stroke="currentColor" 
+                        className="w-5 h-5"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">
                     Congratulations!
                 </h2>
 
-                <p className="text-gray-600 mb-4 text-left">
-                    You found all characters. Enter your name for the leaderboard.
+                {
+                    finalTime !== null 
+                    && 
+                    finalTime !== undefined 
+                    &&
+                    <div className="my-6 p-4 bg-gray-50 rounded-xs">
+
+                        <p className=" mb-1 text-xs font-semibold tracking-wider text-gray-400">
+                            YOUR TIME
+                        </p>                        
+
+                        <div className="text-4xl tracking-wider text-green-700">
+                            {formatLeaderboardTime(finalTime)}
+                        </div>
+                    </div>
+                }
+
+                <p className="mb-4 text-gray-600 text-left">
+                    Well done! Would you like to add your name for the leaderboard?
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-3">

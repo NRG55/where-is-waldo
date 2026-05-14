@@ -22,24 +22,34 @@ function GamePage() {
 
     const currentGame = games.find(game => game.slug === gameSlug);
 
-    const { gameSessionId, foundCharacters, setFoundCharacters, isGameOver } = useGameSession(currentGame);
-    const { coordinates, setCoordinates, menuPosition, handleGameMapClick } = useGameMapInteraction(gameMapRef);
-console.log(coordinates)
+    const { 
+        gameSessionId, 
+        foundCharacters, 
+        setFoundCharacters, 
+        isGameOver,
+        isFinalizingSession,
+        finalTime 
+    } = useGameSession(currentGame);
+
+    const { 
+        coordinates, 
+        setCoordinates, 
+        menuPosition, 
+        handleGameMapClick 
+    } = useGameMapInteraction(gameMapRef);
+
     useEffect(() => {
-        if (isGameOver && gameSessionId) {
+        if (isGameOver && finalTime !== null) {
             setShowNameEntryModal(true);
         };
 
-    }, [isGameOver, gameSessionId]);    
+    }, [isGameOver, finalTime]);    
 
     const handleSubmitScore = async (username) => {
         setIsSubmittingScore(true);
 
         try {            
             const response = await submitScore(gameSessionId, username);
-            console.log("Score saved successfully");
-
-            setShowNameEntryModal(false);
 
             navigate(`/leaderboard/${gameSlug}`, { state: { newScoreId: response.score.id } });
 
@@ -176,8 +186,19 @@ console.log(coordinates)
                 &&
                 <NameEntryModal 
                     onSubmit={handleSubmitScore} 
-                    isSubmitting={isSubmittingScore} 
+                    isSubmitting={isSubmittingScore}
+                    finalTime={finalTime}
+                    onClose={() => navigate("/")} 
                 />                
+            }
+
+            {
+                isFinalizingSession &&
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-200">
+                    <div className="bg-white p-6 rounded-xs shadow-md text-center font-bold text-gray-800">
+                        Verifying your final time...
+                    </div>
+                </div>
             }
         </div>
     );

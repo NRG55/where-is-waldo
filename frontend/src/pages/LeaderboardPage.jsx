@@ -2,6 +2,7 @@ import { useParams, NavLink, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 import useGames from '../context/GameContext';
 import { getLeaderboard } from '../api/gameApi';
+import { formatLeaderboardTime } from '../utils/format';
 
 const LeaderboardPage = () => {
     const { gameSlug } = useParams();
@@ -33,10 +34,10 @@ const LeaderboardPage = () => {
     }, [gameSlug]);
 
     return (
-        <div className="max-w-3xl mx-auto p-6">
+        <div className="max-w-2xl mx-auto p-6 bg-white">
             <h1 className="text-2xl text-center mb-8">Leaderboards</h1>
 
-            <div className="flex border-b border-gray-200 mb-8 justify-center space-x-4">
+            <div className="flex border-b border-gray-200 mb-8 justify-center space-x-4 bg-white">
                 {games.map((game) =>
                     <NavLink
                         key={game.slug}
@@ -83,11 +84,16 @@ const LeaderboardPage = () => {
                                         <td className="px-6 py-4 text-sm text-gray-400">
                                             {index + 1}
                                         </td>
-                                        <td className={`px-6 py-4 text-sm text-gray-800 ${isHighlighted ? "font-bold" : ""}`}>
-                                            {element.username}
+                                        <td className={`px-2 md:px-6 py-4 text-sm text-gray-800 ${isHighlighted ? "font-bold" : ""}`}>
+                                            <div
+                                                title={element.username} 
+                                                className="truncate max-w-20 md:max-w-none"                                                
+                                            >
+                                                {element.username}
+                                            </div>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-right">
-                                            {(element.time / 1000).toFixed(2)}s
+                                        <td className="px-6 py-4 text-sm text-right text-green-700">
+                                            {formatLeaderboardTime(element.time)}
                                         </td>
                                     </tr>
                                 );

@@ -8,7 +8,21 @@ export const startGameSession = async (gameId) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to start session");
+        throw new Error("Failed to start game session");
+    };
+
+    return response.json();
+};
+
+export const finishGameSession = async (sessionId) => {
+    const response = await fetch(`${SERVER_DOMAIN}/sessions/finish`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId })
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to finish game session');
     };
 
     return response.json();

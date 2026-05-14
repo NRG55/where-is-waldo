@@ -9,7 +9,7 @@ export const GameProvider = ({ children }) => {
     useEffect(() => {
         fetch('http://localhost:3000/games')
         .then(res => res.json())
-        .then(data => {console.log(data)
+        .then(data => {
             setGames(data);
             setLoading(false);
         });

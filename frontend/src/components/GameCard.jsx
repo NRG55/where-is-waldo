@@ -11,7 +11,7 @@ function GameCard({ title, image, path }) {
                 />                
             </div>
 
-            <div className="px-4 py-2 bg-white">
+            <div className="px-4 py-2 bg-white text-gray-700">
                 <h3>{ title }</h3>            
             </div>
 

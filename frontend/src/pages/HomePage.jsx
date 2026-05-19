@@ -25,7 +25,7 @@ function HomePage() {
                         <li>Each map has <strong>3 hidden characters listed above the map</strong> for you to find.</li>
                         <li>Click on the map when you spot a character to open the selection menu.</li>
                         <li>Select the correct name from the menu to confirm your find.</li>
-                        <li>Find all targets as fast as you can to top the leaderboard!</li>
+                        <li>Find all characters as fast as you can, with the option to save your name to the leaderboard!</li>
                     </ul>
                 </div>
             </div>

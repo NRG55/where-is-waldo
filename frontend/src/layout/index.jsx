@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Layout() {
     return (
@@ -10,9 +11,7 @@ function Layout() {
                 <Outlet /> 
             </main>
 
-            <footer className="p-4 text-center">
-                2026 Where is Waldo
-            </footer>
+            <Footer />
         </div>
     );
 };

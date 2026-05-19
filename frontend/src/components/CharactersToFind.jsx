@@ -9,11 +9,11 @@ const CharactersToFind = ({ characters, foundCharacters }) => {
                         key={character.name} 
                         className={`flex flex-col items-center ${isFound ? "opacity-40" : "opacity-100"}`}
                     >
-                        <div className="relative">
+                        <div className={`relative w-14 h-14 md:w-18 md:h-18 rounded-full border-2 overflow-hidden bg-white ${isFound ? "border-green-500" : "border-gray-100"}`}>
                             <img 
                                 src={character.imageUrl} 
                                 alt={character.name} 
-                                className={`w-12 h-12 md:w-18 md:h-18 rounded-full border-2 object-cover ${isFound ? "border-green-500" : "border-gray-100"}`}
+                                className="w-full h-full object-cover"
                             />
 
                             {

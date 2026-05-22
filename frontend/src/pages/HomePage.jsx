@@ -1,11 +1,12 @@
 import useGames from '../context/GameContext';
 import GameCard from '../components/GameCard';
+import Loader from '../components/Loader';
 
 function HomePage() {
     const { games, loading } = useGames();
 
     if (loading) {
-        return <p>Loading games...</p>;
+        return <Loader />;
     };     
 
     return (

@@ -10,6 +10,7 @@ import { useGameSession } from '../hooks/useGameSession';
 import NameEntryModal from '../components/NameEntryModal';
 import CharactersToFind from '../components/CharactersToFind';
 import Toast from '../components/Toast';
+import Loader from '../components/Loader';
 
 function GamePage() {
     const { gameSlug } = useParams();
@@ -62,7 +63,7 @@ function GamePage() {
     };    
 
     if (loading) {
-        return <div>Loading Game...</div>;
+        return <Loader />;
     };
 
     if (!currentGame) {
@@ -196,7 +197,7 @@ function GamePage() {
                 isFinalizingSession &&
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-200">
                     <div className="bg-white p-6 rounded-xs shadow-md text-center font-bold text-gray-800">
-                        Verifying your final time...
+                        <Loader message="Verifying your final time..." />
                     </div>
                 </div>
             }

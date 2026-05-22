@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import useGames from '../context/GameContext';
 import { getLeaderboard } from '../api/gameApi';
 import { formatLeaderboardTime } from '../utils/format';
+import Loader from '../components/Loader';
 
 const LeaderboardPage = () => {
     const { gameSlug } = useParams();
@@ -37,13 +38,13 @@ const LeaderboardPage = () => {
         <div className="max-w-2xl mx-auto p-6 bg-white">
             <h1 className="text-2xl text-center mb-8">Leaderboards</h1>
 
-            <div className="flex border-b border-gray-200 mb-8 justify-center space-x-4 bg-white">
+            <div className="flex border-b border-gray-200 mb-8 justify-center bg-white">
                 {games.map((game) =>
                     <NavLink
                         key={game.slug}
                         to={`/leaderboard/${game.slug}`}
                         className={({ isActive }) => 
-                            `pb-4 px-4 text-sm border-b transition ${
+                            `flex-1 md:whitespace-nowrap pb-4 px-4 text-center text-sm border-b transition ${
                                 isActive 
                                 ? "border-black text-black" 
                                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -59,15 +60,15 @@ const LeaderboardPage = () => {
                 {
                     loading 
                     ? 
-                    <div className="p-10 text-center text-gray-500">Loading leaderboard...</div>
+                    <Loader message="Loading leaderboard..." />
                     : 
                     leaderboardData.length > 0 
                     ? 
                     <table className="w-full text-left">
                         <thead className="bg-gray-50 text-gray-800 text-sm">
                             <tr>
-                                <th className="px-6 py-2 text-center">Rank</th>
-                                <th className="px-6 py-2 text-center">Player</th>
+                                <th className="px-6 py-2">Rank</th>
+                                <th className="px-6 py-2">Player</th>
                                 <th className="px-6 py-2 text-center">Time</th>
                             </tr>
                         </thead>
@@ -81,7 +82,7 @@ const LeaderboardPage = () => {
                                         key={element.id}
                                         className={isHighlighted ? "bg-gray-50 outline outline-gray-400 -outline-offset-2" : ""}
                                     >
-                                        <td className="px-6 py-4 text-sm text-gray-400">
+                                        <td className="px-6 py-4 text-center text-sm text-gray-400">
                                             {index + 1}
                                         </td>
                                         <td className={`px-2 md:px-6 py-4 text-sm text-gray-800 ${isHighlighted ? "font-bold" : ""}`}>

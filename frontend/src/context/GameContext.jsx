@@ -6,8 +6,10 @@ export const GameProvider = ({ children }) => {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
+
     useEffect(() => {
-        fetch('http://localhost:3000/games')
+        fetch(`${SERVER_DOMAIN}/games`)
         .then(res => res.json())
         .then(data => {
             setGames(data);

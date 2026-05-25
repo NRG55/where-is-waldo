@@ -30,7 +30,7 @@ function GameTimer({ isActive }) {
 
     return (
         <div className="flex">
-            <div className="border border-gray-100 rounded-xs px-4 py-2 bg-white">
+            <div className="text-xl text-green-800 border border-gray-100 rounded-xs px-4 py-2 bg-white">
                 { formatTime(seconds) }
             </div>
         </div>

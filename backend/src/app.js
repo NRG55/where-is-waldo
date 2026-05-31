@@ -10,10 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send("Where is Waldo API is running");
-});
-
 app.use('/games', gameRoute);
 app.use('/scores', scoreRoute);
 app.use('/sessions', sessionRoute);

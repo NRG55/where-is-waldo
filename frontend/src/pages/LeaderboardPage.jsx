@@ -69,7 +69,7 @@ const LeaderboardPage = () => {
                 {
                     scoresLoading 
                     ? 
-                    <Loader message="Loading leaderboard..." />
+                    <Loader />
                     : 
                     leaderboardData.length > 0 
                     ? 

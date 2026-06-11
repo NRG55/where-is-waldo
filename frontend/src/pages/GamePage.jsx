@@ -197,7 +197,7 @@ function GamePage() {
                 isFinalizingSession &&
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-200">
                     <div className="bg-white p-6 rounded-xs shadow-md text-center font-bold text-gray-800">
-                        <Loader message="Verifying your final time..." />
+                        <Loader />
                     </div>
                 </div>
             }

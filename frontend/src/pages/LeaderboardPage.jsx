@@ -7,19 +7,24 @@ import Loader from '../components/Loader';
 
 const LeaderboardPage = () => {
     const { gameSlug } = useParams();
-    const { games } = useGames();
+    const { games, loading: gamesLoading } = useGames();
     const location = useLocation();
     const [leaderboardData, setLeaderboardData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [scoresLoading, setScoresLoading] = useState(true);
 
     const highlightScoreId = location.state?.newScoreId;
+    const activeGameSlug = gameSlug || (games.length > 0 ? games[0].slug : null);
 
     useEffect(() => {
+        if (!activeGameSlug) {
+            return;
+        };
+
         const fetchScores = async () => {
-            setLoading(true);
+            setScoresLoading(true);
 
             try {
-                const data = await getLeaderboard(gameSlug);
+                const data = await getLeaderboard(activeGameSlug);
 
                 setLeaderboardData(data);
 
@@ -27,12 +32,16 @@ const LeaderboardPage = () => {
                 console.log("Error fetching leaderboard", error);
 
             } finally {
-                setLoading(false);
+                setScoresLoading(false);
             };
         };
 
         fetchScores();
-    }, [gameSlug]);
+    }, [activeGameSlug]);
+
+    if (gamesLoading) {
+        return <Loader message="Waking up the server... This can take 20-30 seconds on the free tier. Thank you for your patience!" />;
+    };
 
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white">
@@ -58,7 +67,7 @@ const LeaderboardPage = () => {
 
             <div className="overflow-hidden">
                 {
-                    loading 
+                    scoresLoading 
                     ? 
                     <Loader message="Loading leaderboard..." />
                     : 

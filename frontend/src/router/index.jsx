@@ -20,7 +20,7 @@ const router = createBrowserRouter([
                 element: <GamePage />
             },
             {
-                path: 'leaderboard/:gameSlug',
+                path: 'leaderboard/:gameSlug?',
                 element: <LeaderboardPage />
             },
             { 

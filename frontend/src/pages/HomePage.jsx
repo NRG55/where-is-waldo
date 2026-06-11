@@ -6,7 +6,7 @@ function HomePage() {
     const { games, loading } = useGames();
 
     if (loading) {
-        return <Loader />;
+        return <Loader message="Waking up the server... This can take 20-30 seconds on the free tier. Thank you for your patience!" />;
     };     
 
     return (

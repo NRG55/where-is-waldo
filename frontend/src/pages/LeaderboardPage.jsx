@@ -1,43 +1,16 @@
-import { useParams, NavLink, useLocation } from 'react-router';
-import { useState, useEffect } from 'react';
-import useGames from '../context/GameContext';
-import { getLeaderboard } from '../api/gameApi';
+import { useParams, NavLink } from 'react-router';
+import useGames from '../hooks/useGames.js';
 import { formatLeaderboardTime } from '../utils/format';
 import Loader from '../components/Loader';
+import useLeaderboard from '../hooks/useLeaderboard.js';
 
 const LeaderboardPage = () => {
     const { gameSlug } = useParams();
     const { games, loading: gamesLoading } = useGames();
-    const location = useLocation();
-    const [leaderboardData, setLeaderboardData] = useState([]);
-    const [scoresLoading, setScoresLoading] = useState(true);
 
-    const highlightScoreId = location.state?.newScoreId;
     const activeGameSlug = gameSlug || (games.length > 0 ? games[0].slug : null);
 
-    useEffect(() => {
-        if (!activeGameSlug) {
-            return;
-        };
-
-        const fetchScores = async () => {
-            setScoresLoading(true);
-
-            try {
-                const data = await getLeaderboard(activeGameSlug);
-
-                setLeaderboardData(data);
-
-            } catch (error) {
-                console.log("Error fetching leaderboard", error);
-
-            } finally {
-                setScoresLoading(false);
-            };
-        };
-
-        fetchScores();
-    }, [activeGameSlug]);
+    const { leaderboardData, scoresLoading, scoreIdToHighlight } = useLeaderboard(activeGameSlug);
 
     if (gamesLoading) {
         return <Loader message="Waking up the server... This can take 20-30 seconds on the free tier. Thank you for your patience!" />;
@@ -84,7 +57,7 @@ const LeaderboardPage = () => {
 
                         <tbody className="divide-y divide-gray-100">
                             {leaderboardData.map((element, index) => {
-                                const isHighlighted = element.id === highlightScoreId;
+                                const isHighlighted = element.id === scoreIdToHighlight;
 
                                 return (
                                     <tr 

@@ -1,6 +1,6 @@
 import { Link, NavLink, useParams } from 'react-router';
-import useGames from '../context/GameContext';
 import logo from "../assets/logo.png"; 
+import useGames from '../hooks/useGames.js';
 
 const Header = () => {
     const { games } = useGames();

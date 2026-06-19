@@ -1,4 +1,4 @@
-import useGames from '../context/GameContext';
+import useGames from '../hooks/useGames.js';
 import GameCard from '../components/GameCard';
 import Loader from '../components/Loader';
 

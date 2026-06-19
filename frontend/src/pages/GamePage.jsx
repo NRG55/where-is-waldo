@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useRef, useState } from 'react';
-import useGames from '../context/GameContext';
 import GameTimer from '../components/GameTimer';
 import NotFoundPage from './NotFoundPage';
 import { submitScore, validateLocation } from '../api/gameApi';
@@ -11,6 +10,7 @@ import NameEntryModal from '../components/NameEntryModal';
 import CharactersToFind from '../components/CharactersToFind';
 import Toast from '../components/Toast';
 import Loader from '../components/Loader';
+import useGames from '../hooks/useGames.js';
 
 function GamePage() {
     const { gameSlug } = useParams();
